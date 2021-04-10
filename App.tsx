@@ -1,21 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import MapView from './views/MapView';
+import CameraView from './views/CameraView';
 
-export default function App() {
+const App = () => {
+  const [currentCamera, setCurrentCamera] = useState('');
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
+      <MapView setCameraFunction = { setCurrentCamera } />
+      <CameraView cameraUrl = { currentCamera } />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1
   },
 });
+
+export default App;
