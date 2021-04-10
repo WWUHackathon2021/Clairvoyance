@@ -1,7 +1,11 @@
 import React from 'react';
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
-import { cameraData, Camera } from '../utils/cameraData';
+import { cameraData } from '../utils/cameraData';
 import "leaflet/dist/leaflet.css";
+import { View, StyleSheet } from 'react-native';
+import LocationView from './LocationView';
+import { CameraView } from "./CameraView";
+import { isPropertySignature } from 'typescript';
 
 type MapProps = {
   setCameraFunction: (cameraUrl: string) => void,
@@ -14,7 +18,7 @@ export function MapView(props:MapProps){
   function handleCameraSelected(cameraUrl: string) {
     props.setCameraFunction(cameraUrl);
   }
-  // // Hard code this temporarily
+  // Hard code this temporarily
   handleCameraSelected('https://www.seattle.gov/trafficcams/images/Aurora_N_46_NS.jpg');
 
   const circles = cameraData.map(camera => {
@@ -30,14 +34,17 @@ export function MapView(props:MapProps){
   });
 
   return (
-      <MapContainer center={[47.6215254, -122.3646686]} zoom={10} style={{
-          width: '100%',
-          height: props.isLandscape ? '100vh' : '50vh'
-        }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {circles}
-      </MapContainer>
+      // <MapContainer center={[47.6215254, -122.3646686]} zoom={10} style={{
+      //     width: '100%',
+      //     height: props.isLandscape ? '100vh' : '50vh'
+      //   }}>
+      //   <TileLayer
+      //     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      //   />
+      //   {circles}
+      // </MapContainer>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <CameraView isLandscape={props.isLandscape} />
+      </View>
   );
 }

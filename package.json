@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-hook/size": "^2.1.1",
+    "@unimodules/react-native-adapter": "^6.1.0",
     "expo": "~40.0.1",
     "expo-location": "~10.0.0",
     "expo-status-bar": "~1.0.3",

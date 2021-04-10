@@ -1,9 +1,9 @@
 import cameraJSON from '../assets/cameras.json'
 
-export interface camera {
+export interface Camera {
     x: number,
     y: number,
     url: string
   }
 
-export const cameraData:camera[] = cameraJSON as camera[];
+export const cameraData:Camera[] = cameraJSON as Camera[];

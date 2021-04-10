@@ -34,7 +34,7 @@ const App = () => {
         </div>
         <div style={viewStyle}>
           <CameraView
-            cameraUrl={ currentCamera }
+            //cameraUrl={ currentCamera }
             isLandscape={isLandscape}
            />
         </div>
