@@ -30,6 +30,7 @@ export function CameraView( props: CameraViewProps )
   const [forceRefreshStr, setForceRefreshStr] = useState( new Date() );
   useEffect( () =>
   {
+    // refresh every 10 seconds
     let intervalHandle = setInterval( () => { setForceRefreshStr( new Date() ); }, 10000 );
 
     return function cleanup()
@@ -40,14 +41,24 @@ export function CameraView( props: CameraViewProps )
 
   function refreshCameraView()
   {
-    let { status } = await requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+    // Get currentLocation
 
-      let currLocation = await getCurrentPositionAsync( {} );
+    // Call findClosestCamera with current and previous location objects
+
+    // return camera object
+    
+    // let { status } = await requestPermissionsAsync();
+    //   if (status !== 'granted') {
+    //     setErrorMsg('Permission to access location was denied');
+    //     return;
+    //   }
+
+    //   let currLocation = await getCurrentPositionAsync( {} );
+
+
   }
+
+
 
   function findClosestCamera( prevLocation: LocationObject, currLocation: LocationObject )
   {
