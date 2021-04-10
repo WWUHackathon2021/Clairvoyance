@@ -19,6 +19,8 @@ const ClosestCameraView: FunctionComponent = () =>
   //   }, 5000);
   // }, []);
 
+//  
+
   useEffect( () =>
   {
     ( async () =>  // not necessary?
