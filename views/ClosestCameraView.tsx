@@ -1,3 +1,4 @@
+/*  TODO (weberte): Delete!
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
@@ -85,3 +86,5 @@ const styles = StyleSheet.create({
 });
 
 export default ClosestCameraView;
+
+*/

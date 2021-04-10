@@ -45,7 +45,7 @@ export function CameraView( props: CameraViewProps )
 
     // Call findClosestCamera with current and previous location objects
 
-    // return camera object
+    // return camera
     
     // let { status } = await requestPermissionsAsync();
     //   if (status !== 'granted') {
