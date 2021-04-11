@@ -41,8 +41,11 @@ export function CameraView( props: CameraViewProps )
 
   function refreshCameraView(currentLocation:Location.LocationObject)
   {
-    console.log("stats");
-    console.log(currentLocation);
+    console.log( "currentLocation=" );
+    console.log( currentLocation );
+    console.log( "previousLocation=" );
+    console.log( prevLocation.current );
+    
 
     // Call findClosestCamera with current and previous location objects
     findClosestCamera(prevLocation.current, currentLocation);
@@ -58,6 +61,7 @@ export function CameraView( props: CameraViewProps )
   function findClosestCamera( prevLocation: Location.LocationObject|null, currLocation: Location.LocationObject|null )
   {
     // TODO: Calculate speed
+    
 
     // TODO: Derive bearing
 
