@@ -115,17 +115,17 @@ export function CameraView( props: CameraViewProps )
       speed = currLocation!.coords.speed;
     }
 
-    // TODO: Derive bearing
+    // Calculate bearing
     const bearing: number = MathUtils.getBearing(
       prevLocation!.coords.latitude,
       prevLocation!.coords.longitude,
       currLocation!.coords.latitude,
       currLocation!.coords.longitude );
 
-    // TODO: Get location 1 minute ahead depending on your speed
+    // Get location 1 minute ahead depending on your speed
     const lookaheadDistanceMeters: number = speed * TIME_LOOKAHEAD
 
-    // TODO: Calculate the target location
+    // Calculate the target location
     const lookaheadLocation: number[] = MathUtils.destVincenty(
       currLocation!.coords.latitude,
       currLocation!.coords.longitude,
