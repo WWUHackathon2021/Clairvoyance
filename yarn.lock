@@ -1842,6 +1842,14 @@
   dependencies:
     compare-versions "^3.4.0"
 
+"@unimodules/react-native-adapter@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@unimodules/react-native-adapter/-/react-native-adapter-6.1.0.tgz#6bb5252d3d87d5efebe1fb245624817c76955657"
+  integrity sha512-Fg+Dzt6KxwJLiTfEy1thgntqI/hybx5MsqbJkSfFAfZRmi/5+ypcl5LZQf8gqplgjzXWqeM3M184GAwezwIbjQ==
+  dependencies:
+    invariant "^2.2.4"
+    lodash "^4.5.0"
+
 "@unimodules/react-native-adapter@~5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@unimodules/react-native-adapter/-/react-native-adapter-5.7.0.tgz#c5b7c660c5c69e77a7baeaed62be73cfe18dd7b0"

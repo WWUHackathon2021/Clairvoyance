@@ -28,13 +28,13 @@ const App = () => {
       }}>
         <div style={viewStyle}>
           <MapView
-            // setCameraFunction={ setCurrentCamera }
+            setCameraFunction={ setCurrentCamera }
             isLandscape={isLandscape}
           />
         </div>
         <div style={viewStyle}>
           <CameraView
-            cameraUrl={ currentCamera }
+            //cameraUrl={ currentCamera }
             isLandscape={isLandscape}
            />
         </div>

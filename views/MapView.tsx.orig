@@ -1,14 +1,11 @@
-<<<<<<< HEAD
 import React from 'react';
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
-import { cameraData, camera } from '../utils/cameraData';
+import { cameraData } from '../utils/cameraData';
 import "leaflet/dist/leaflet.css";
-=======
-import React, { FunctionComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import LocationView from './LocationView';
-import ClosestCameraView from "./ClosestCameraView";
->>>>>>> 6be0841 (Testing out curr, prev coords)
+import { CameraView } from "./CameraView";
+import { isPropertySignature } from 'typescript';
 
 type MapProps = {
   setCameraFunction: (cameraUrl: string) => void,
@@ -37,22 +34,17 @@ export function MapView(props:MapProps){
   });
 
   return (
-<<<<<<< HEAD
-      <MapContainer center={[47.6215254, -122.3646686]} zoom={10} style={{
-          width: '100%',
-          height: props.isLandscape ? '100vh' : '50vh'
-        }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {circles}
-      </MapContainer>
-=======
-    <>
+      // <MapContainer center={[47.6215254, -122.3646686]} zoom={10} style={{
+      //     width: '100%',
+      //     height: props.isLandscape ? '100vh' : '50vh'
+      //   }}>
+      //   <TileLayer
+      //     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      //   />
+      //   {circles}
+      // </MapContainer>
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        <ClosestCameraView />
+        <CameraView isLandscape={props.isLandscape} />
       </View>
-    </>
->>>>>>> 6be0841 (Testing out curr, prev coords)
   );
 }

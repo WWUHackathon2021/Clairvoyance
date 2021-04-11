@@ -9,58 +9,80 @@ const GPS_REFRESH_INTERVAL_MILLISECONDS: number = 10000;
 const TIME_LOOKAHEAD: number = 60;
 
 type CameraViewProps = {
-  // cameraUrl: string,
+  //cameraUrl: string,
   isLandscape: boolean,
 };
 
 export function CameraView( props: CameraViewProps )
 {
-  const [closetCamera, setClosestCamera] = useState<Camera | null>( null );
+  const [closestCamera, setClosestCamera] = useState<Camera | null>( null );
   const prevLocation = useRef<Location.LocationObject | null>( null );
-  const [errorMsg, setErrorMsg] = useState( '' );
+  //const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
 
   // TODO (weberte): why is the callback not running? I have no idea what I'm doing...
-  // const locationOptions: Location.LocationOptions = {
-  //   accuracy: 3,
-  //   timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
-  //   distanceInterval: 30
-  // }
-  // const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
+  useEffect(() => {
+    (async () => {
+      const locationOptions: Location.LocationOptions = {
+        accuracy: 3,
+        timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
+        distanceInterval: 30
+      };
+      let removeFunction = await Location.watchPositionAsync( locationOptions, setClosestCamera(locationObj) );
+
+      return function cleanup() {
+        removeFunction.remove();
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      prevLocation.current = location;
+    })();
+  }, []);
+  
 
   /**
    * 
    * DELETE THIS BLOCK! I'm just using this to test the math...
    * 
    */
-  const prevTest: Location.LocationObject = {
-    coords: {
-      latitude: 47.4702,
-      longitude: -120.325,
-      altitude: null,
-      accuracy: null,
-      altitudeAccuracy: null,
-      heading: null,
-      speed: null,
-    },
-    timestamp: 12345
-  }
+  // const prevTest: Location.LocationObject = {
+  //   coords: {
+  //     latitude: 47.4702,
+  //     longitude: -120.325,
+  //     altitude: null,
+  //     accuracy: null,
+  //     altitudeAccuracy: null,
+  //     heading: null,
+  //     speed: null,
+  //   },
+  //   timestamp: 12345
+  // }
 
-  const currTest: Location.LocationObject = {
-    coords: {
-      latitude: 48.998933,
-      longitude: -119.461365,
-      altitude: null,
-      accuracy: null,
-      altitudeAccuracy: null,
-      heading: null,
-      speed: null,
-    },
-    timestamp: 123765
-  }
+  // const currTest: Location.LocationObject = {
+  //   coords: {
+  //     latitude: 48.998933,
+  //     longitude: -119.461365,
+  //     altitude: null,
+  //     accuracy: null,
+  //     altitudeAccuracy: null,
+  //     heading: null,
+  //     speed: null,
+  //   },
+  //   timestamp: 123765
+  // }
 
-  const testCamera: Camera | null = findClosestCamera( prevTest, currTest );
+  // const testCamera: Camera | null = findClosestCamera( prevTest, currTest );
 
    /**
    * 
@@ -68,17 +90,17 @@ export function CameraView( props: CameraViewProps )
    * 
    */
 
-  let closetCameraUrl: string = testCamera!.url;
-  if ( closetCamera )
-  {
-    closetCameraUrl = closetCamera.url;
-  }
-  console.log( `closetCameraUrl=${ closetCameraUrl }` );
+  // let closestCameraUrl: string = testCamera!.url;
+  // if ( closestCamera )
+  // {
+  //   closestCameraUrl = closestCamera.url;
+  // }
+  // console.log( `closetCameraUrl=${ closestCameraUrl }` );
 
   return (
     <div style={{
       backgroundColor: 'black',
-      backgroundImage: `url("${ closetCameraUrl }")`,
+      backgroundImage: `url("${ closestCameraUrl }")`,
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center',

@@ -4,18 +4,18 @@ import { cameraData, Camera } from '../utils/cameraData';
 import "leaflet/dist/leaflet.css";
 
 type MapProps = {
-  // setCameraFunction: (cameraUrl: string) => void,
+  setCameraFunction: (cameraUrl: string) => void,
   isLandscape: boolean,
 };
 
 export function MapView(props:MapProps){
   // TODO: Link this event handler to the leaflet map so when a pin is selected
   // the new camera URL gets passed here.
-  // function handleCameraSelected(cameraUrl: string) {
-  //   props.setCameraFunction(cameraUrl);
-  // }
+  function handleCameraSelected(cameraUrl: string) {
+    props.setCameraFunction(cameraUrl);
+  }
   // // Hard code this temporarily
-  // handleCameraSelected('https://www.seattle.gov/trafficcams/images/Aurora_N_46_NS.jpg');
+  handleCameraSelected('https://www.seattle.gov/trafficcams/images/Aurora_N_46_NS.jpg');
 
   const circles = cameraData.map(camera => {
     return (
