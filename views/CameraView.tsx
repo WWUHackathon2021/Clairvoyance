@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
-import { LocationObject, requestPermissionsAsync, getCurrentPositionAsync } from "expo-location";
+import * as Location from "expo-location";
 import { cameraData, camera } from "../utils/cameraData";
+import { throttle } from "../utils/throttle";
 
 type CameraViewProps = {
   cameraUrl: string,
@@ -11,7 +12,7 @@ type CameraViewProps = {
 export function CameraView( props: CameraViewProps )
 {
   const [closetCamera, setClosestCamera] = useState<camera|null>( null );
-  const [prevLocation, setPrevLocation] = useState<LocationObject|null>( null );
+  const [prevLocation, setPrevLocation] = useState<Location.LocationObject|null>( null );
   const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
@@ -27,17 +28,16 @@ export function CameraView( props: CameraViewProps )
     }, [refetch];
   */
 
-  const [forceRefreshStr, setForceRefreshStr] = useState( new Date() );
-  useEffect( () =>
-  {
-    // refresh every 10 seconds
-    let intervalHandle = setInterval( () => { setForceRefreshStr( new Date() ); }, 10000 );
+  const locationOptions:Location.LocationOptions = {
+    accuracy: 3,
+    timeInterval: 10000,
+    distanceInterval: 30
+  }
 
-    return function cleanup()
-    {
-      clearInterval( intervalHandle );
-    };
-  }, [refreshCameraView()] );
+  const location = Location.watchPositionAsync(locationOptions, refreshCameraView);
+
+  console.log(location);
+
 
   function refreshCameraView()
   {
@@ -60,7 +60,7 @@ export function CameraView( props: CameraViewProps )
 
 
 
-  function findClosestCamera( prevLocation: LocationObject, currLocation: LocationObject )
+  function findClosestCamera( prevLocation: Location.LocationObject, currLocation: Location.LocationObject )
   {
     // TODO: Calculate speed
 
@@ -79,7 +79,7 @@ export function CameraView( props: CameraViewProps )
   return (
     <div style={{
       backgroundColor: 'black',
-      backgroundImage: `url("${ props.cameraUrl }?${ forceRefreshStr }")`,
+      backgroundImage: `url("${ props.cameraUrl }")`,
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center',
