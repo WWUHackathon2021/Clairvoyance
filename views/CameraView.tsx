@@ -171,6 +171,7 @@ export function CameraView( props: CameraViewProps )
       }
     }
 
+    console.log( closestCamera );
     return closestCamera;
   }
 }
