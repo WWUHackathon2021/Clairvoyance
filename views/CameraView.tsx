@@ -21,32 +21,17 @@ export function CameraView( props: CameraViewProps )
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
 
-  console.log( "what's going on here..." );
-
-  const locationOptions: Location.LocationOptions = {
-    accuracy: 3,
-    timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
-    distanceInterval: 30
-  }
-
-  // TODO (weberte): why is the callback not running?
-  // const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
-
-  // console.log( `currLocation=${ currLocation }` );
-
-  // console.log( closetCameraUrl );
-
-  // const testCamera: Camera = {
-  //   "x": -120.180534,
-  //   "y": 47.765599,
-  //   "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
+  // TODO (weberte): why is the callback not running? I have no idea what I'm doing...
+  // const locationOptions: Location.LocationOptions = {
+  //   accuracy: 3,
+  //   timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
+  //   distanceInterval: 30
   // }
-
-  // setClosestCamera( testCamera.url );
+  // const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
 
   /**
    * 
-   * DELETE THIS BLOCK!
+   * DELETE THIS BLOCK! I'm just using this to test the math...
    * 
    */
   const prevTest: Location.LocationObject = {
@@ -76,6 +61,12 @@ export function CameraView( props: CameraViewProps )
   }
 
   const testCamera: Camera | null = findClosestCamera( prevTest, currTest );
+
+   /**
+   * 
+   * DELETE THIS BLOCK! I'm just using this to test the math...
+   * 
+   */
 
   let closetCameraUrl: string = testCamera!.url;
   if ( closetCamera )
@@ -159,12 +150,6 @@ export function CameraView( props: CameraViewProps )
     console.log( `speed=${ speed }, bearing=${ bearing }, lookaheadLocation=${ lookaheadLocation }` );
 
     return nearestCamera( lookaheadLocation );
-
-    // return {
-    //   "x": -120.180534,
-    //   "y": 47.765599,
-    //   "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
-    // }
   }
 
   function nearestCamera( lookaheadLocation: number[] )
