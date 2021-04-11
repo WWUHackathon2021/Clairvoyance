@@ -1,9 +1,17 @@
+import React, { useState, useRef } from 'react';
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { StatusBar } from 'expo-status-bar';
 import useSize from '@react-hook/size';
-import React, { useState, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { MapView } from './views/MapView';
 import { CameraView } from './views/CameraView';
+import { LinkedInView } from './views/LinkedInView';
+
 
 const App = () => {
   const [currentCamera, setCurrentCamera] = useState('');
@@ -15,8 +23,12 @@ const App = () => {
     flex: '50%'
   }
 
-  return (
-    <View style={styles.container}>
+  const LinkedInScreen = () => {
+    return <LinkedInView/>
+  }
+
+  const AppScreen = () => {
+    return <View style={styles.container}>
       <StatusBar style="auto" />
       <div ref={containerRef}
       style={{
@@ -36,10 +48,19 @@ const App = () => {
           <CameraView
             //cameraUrl={ currentCamera }
             isLandscape={isLandscape}
-           />
+          />
         </div>
       </div>
-    </View>
+    </View>;
+  };
+
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={LinkedInScreen} />
+        <Route path="/app" component={AppScreen}/>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

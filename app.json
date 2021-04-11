@@ -26,7 +26,15 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "backgroundColor": "#383838",
+      "description": "Live Camera Feeds",
+      "display": "fullscreen",
+      "themeColor": "#383838",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain"
+      }
     }
   }
 }
