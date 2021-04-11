@@ -49,6 +49,33 @@ export function CameraView( props: CameraViewProps )
    * DELETE THIS BLOCK!
    * 
    */
+  const prevTest: Location.LocationObject = {
+    coords: {
+      latitude: 47.4702,
+      longitude: -120.325,
+      altitude: null,
+      accuracy: null,
+      altitudeAccuracy: null,
+      heading: null,
+      speed: null,
+    },
+    timestamp: 12345
+  }
+
+  const currTest: Location.LocationObject = {
+    coords: {
+      latitude: 48.998933,
+      longitude: -119.461365,
+      altitude: null,
+      accuracy: null,
+      altitudeAccuracy: null,
+      heading: null,
+      speed: null,
+    },
+    timestamp: 123765
+  }
+
+  const testCamera: Camera = findClosestCamera( prevTest, currTest );
 
   let closetCameraUrl: string = testCamera.url;
   if ( closetCamera )
@@ -76,7 +103,8 @@ export function CameraView( props: CameraViewProps )
 
 
     // Call findClosestCamera with current and previous location objects
-    const closest: Camera = findClosestCamera( prevLocation.current, currentLocation );
+    const closest: Camera | null  = findClosestCamera( prevLocation.current, currentLocation );
+    console.log(`closestCamera=${closest}`)
 
     prevLocation.current = currentLocation;
 
@@ -130,13 +158,34 @@ export function CameraView( props: CameraViewProps )
 
     console.log( `speed=${ speed }, bearing=${ bearing }, lookaheadLocation=${ lookaheadLocation }` );
 
-    // TODO: Find K=1 nearest camera
+    return nearestCamera( lookaheadLocation );
 
-    return {
-      "x": -120.180534,
-      "y": 47.765599,
-      "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
-    }
+    // return {
+    //   "x": -120.180534,
+    //   "y": 47.765599,
+    //   "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
+    // }
   }
 
+  function nearestCamera( lookaheadLocation: number[] )
+  {
+    let closestCamera: Camera;
+    let minDistance: number = Number.MAX_VALUE;
+    for ( let camera of cameraData )
+    {
+      const dist: number = MathUtils.haversineDistance(
+        camera.y,
+        camera.x,
+        lookaheadLocation[0],
+        lookaheadLocation[1] );
+
+      if ( dist < minDistance )
+      {
+        minDistance = dist;
+        closestCamera = camera;
+      }
+    }
+
+    return closetCamera;
+  }
 }
