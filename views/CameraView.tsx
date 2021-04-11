@@ -127,13 +127,15 @@ export function CameraView( props: CameraViewProps )
 
   function refreshCameraView( currentLocation: Location.LocationObject )
   {
-    console.log( `currentLocation=${ currentLocation }` );
-    console.log( `prevLocation=${ prevLocation }` );
+    console.log( "currentLocation" );
+    console.log( currentLocation );
+    console.log( "prevLocation" );
+    console.log( prevLocation );
 
 
     // Call findClosestCamera with current and previous location objects
     const closest: Camera | null  = findClosestCamera( prevLocation, currentLocation );
-    console.log( `closestCamera=${ closest }` );
+    console.log( `closest` );
 
     // prevLocation.current = currentLocation;
     setPrevLocation( currentLocation );
