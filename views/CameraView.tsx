@@ -15,29 +15,69 @@ type CameraViewProps = {
 
 export function CameraView( props: CameraViewProps )
 {
-  const [closetCameraUrl, setClosestCamera] = useState( "" );
+  const [closetCamera, setClosestCamera] = useState<Camera | null>( null );
   const prevLocation = useRef<Location.LocationObject | null>( null );
   const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
-  
+
   console.log( "what's going on here..." );
 
   const locationOptions: Location.LocationOptions = {
-    // accuracy: 3,
+    accuracy: 3,
     timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
     distanceInterval: 30
   }
 
   const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
 
-  console.log(`currLocation=${currLocation}`);
+  // console.log( `currLocation=${ currLocation }` );
+
+  // console.log( closetCameraUrl );
+
+  const testCamera: Camera = {
+    "x": -120.180534,
+    "y": 47.765599,
+    "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
+  }
+
+  // setClosestCamera( testCamera.url );
+  let closetCameraUrl: string = testCamera.url;
+  if ( closetCamera )
+  {
+    closetCameraUrl = closetCamera.url;
+  }
+  console.log( `closetCameraUrl=${ closetCameraUrl }` );
+
+  // let text = 'Getting current location..';
+  // if (errorMsg) {
+  //   text = errorMsg;
+  // } else if (location) {
+  //   text = JSON.stringify(location);
+  // }
+
+  // return (
+  //   <>
+  //     <Text style={styles.paragraph}>{text}</Text>
+  //   </>
+  // );
+
+  return (
+    <div style={{
+      backgroundColor: 'black',
+      backgroundImage: `url("${ closetCameraUrl }")`,
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center',
+      height: props.isLandscape ? '100vh' : '50vh'
+    }}></div>
+  );
 
 
   function refreshCameraView( currentLocation: Location.LocationObject )
   {
-    console.log( `currentLocation=${currentLocation}` );
-    console.log( `prevLocation.current=${prevLocation.current}` );
+    console.log( `currentLocation=${ currentLocation }` );
+    console.log( `prevLocation.current=${ prevLocation.current }` );
 
 
     // Call findClosestCamera with current and previous location objects
@@ -45,13 +85,8 @@ export function CameraView( props: CameraViewProps )
 
     prevLocation.current = currentLocation;
 
-    setClosestCamera( closest!.url );
-
-    // props.cameraUrl = closetCamera!.url;
-
+    setClosestCamera( closest );
   }
-
-
 
   function findClosestCamera( prevLocation: Location.LocationObject | null, currLocation: Location.LocationObject | null )
   {
@@ -101,7 +136,7 @@ export function CameraView( props: CameraViewProps )
     console.log( `speed=${ speed }, bearing=${ bearing }, lookaheadLocation=${ lookaheadLocation }` );
 
     // TODO: Find K=1 nearest camera
-    
+
     return {
       "x": -120.180534,
       "y": 47.765599,
@@ -109,16 +144,4 @@ export function CameraView( props: CameraViewProps )
     }
   }
 
-  console.log( closetCameraUrl );
-  
-  return (
-    <div style={{
-      backgroundColor: 'black',
-      backgroundImage: `url("${ closetCameraUrl }")`,
-      backgroundSize: 'contain',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center center',
-      height: props.isLandscape ? '100vh' : '50vh'
-    }}></div>
-  );
 }
