@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import LocationView from './LocationView';
 
 type MapProps = {
   setCameraFunction: (cameraUrl: string) => void
@@ -16,7 +17,9 @@ const MapView: FunctionComponent<MapProps> = ({ setCameraFunction }: MapProps) =
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: "darkorange" }} />
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <LocationView />
+      </View>
     </>
   );
 }
