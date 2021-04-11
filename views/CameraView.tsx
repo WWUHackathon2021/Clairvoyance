@@ -29,38 +29,33 @@ export function CameraView( props: CameraViewProps )
     distanceInterval: 30
   }
 
-  const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
+  // TODO (weberte): why is the callback not running?
+  // const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
 
   // console.log( `currLocation=${ currLocation }` );
 
   // console.log( closetCameraUrl );
 
-  const testCamera: Camera = {
-    "x": -120.180534,
-    "y": 47.765599,
-    "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
-  }
+  // const testCamera: Camera = {
+  //   "x": -120.180534,
+  //   "y": 47.765599,
+  //   "url": "https://images.wsdot.wa.gov/nc/ktunnel_medium.jpg"
+  // }
 
   // setClosestCamera( testCamera.url );
+
+  /**
+   * 
+   * DELETE THIS BLOCK!
+   * 
+   */
+
   let closetCameraUrl: string = testCamera.url;
   if ( closetCamera )
   {
     closetCameraUrl = closetCamera.url;
   }
   console.log( `closetCameraUrl=${ closetCameraUrl }` );
-
-  // let text = 'Getting current location..';
-  // if (errorMsg) {
-  //   text = errorMsg;
-  // } else if (location) {
-  //   text = JSON.stringify(location);
-  // }
-
-  // return (
-  //   <>
-  //     <Text style={styles.paragraph}>{text}</Text>
-  //   </>
-  // );
 
   return (
     <div style={{
