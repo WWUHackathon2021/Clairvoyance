@@ -30,7 +30,7 @@ export function CameraView( props: CameraViewProps )
         timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
         distanceInterval: 30
       };
-      let removeFunction = await Location.watchPositionAsync( locationOptions, setClosestCamera(locationObj) );
+      let removeFunction = await Location.watchPositionAsync( locationOptions, refreshCameraView );
 
       return function cleanup() {
         removeFunction.remove();
@@ -131,10 +131,11 @@ export function CameraView( props: CameraViewProps )
 
 
     // Call findClosestCamera with current and previous location objects
-    const closest: Camera | null  = findClosestCamera( prevLocation.current, currentLocation );
-    console.log(`closestCamera=${closest}`)
+    const closest: Camera | null  = findClosestCamera( prevLocation, currentLocation );
+    console.log( `closestCamera=${ closest }` );
 
-    prevLocation.current = currentLocation;
+    // prevLocation.current = currentLocation;
+    setPrevLocation( currentLocation );
 
     setClosestCamera( closest );
   }
