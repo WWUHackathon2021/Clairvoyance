@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, Image, LayoutChangeEvent } from 'react-native';
 
 type CameraProps = {
   cameraUrl: string
@@ -10,29 +10,35 @@ const CameraView: FunctionComponent<CameraProps> = ({ cameraUrl }: CameraProps) 
   // We set a query param on the img URL every interval to force the update.
   const [forceRefreshStr, setForceRefreshStr] = useState(new Date());
   useEffect(() => {
-    let intervalHandle = setInterval(() => { setForceRefreshStr(new Date()); }, 15000);
+    let intervalHandle = setInterval(() => { setForceRefreshStr(new Date()); }, 60000);
 
     return function cleanup() {
       clearInterval(intervalHandle);
     };
   });
 
+  const [imgDimensions, setImgDimensions] = useState({ width: 400, height: 400});
 
-  const [imgHeight, setImgHeight] = useState(100);
-  let imgWidth = Dimensions.get('window').width;
+  const _onViewLayoutChange = (event: LayoutChangeEvent) => {
+    const containerWidth = event.nativeEvent.layout.width;
+    const containerHeight = event.nativeEvent.layout.height;
 
-  useEffect(() => {
-    Image.getSize(cameraUrl, (width, height) => {
-      setImgHeight(height * (imgWidth / width));
+    Image.getSize(cameraUrl, (ogWidth, ogHeight) => {
+      let ratio = Math.min( (containerWidth / ogWidth), (containerHeight / ogHeight) );
+
+      let newWidth = ogWidth * ratio;
+      let newHeight = ogHeight * ratio;
+
+      setImgDimensions({ width: newWidth, height: newHeight});
     });
-  });
+  }
 
   return (
     <>
-      <View style={styles.view}>
+      <View style={styles.view} onLayout={_onViewLayoutChange}>
         <Image
           source={{ uri: `${cameraUrl}?${forceRefreshStr}` }}
-          style={{ width: imgWidth, height: imgHeight }}
+          style={ imgDimensions }
         />
       </View>
     </>
