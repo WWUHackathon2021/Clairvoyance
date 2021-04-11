@@ -20,37 +20,24 @@ export function CameraView( props: CameraViewProps )
   const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
-
-  /*
-   function refetch(){
-      ...
-    }
-  
-    useEffect() => {
-        const interval = setInterval(refetch, 1000);
-        return () => clearInterval(interval);
-    }, [refetch];
-  */
   
   console.log( "what's going on here..." );
 
   const locationOptions: Location.LocationOptions = {
-    accuracy: 3,
+    // accuracy: 3,
     timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
     distanceInterval: 30
   }
 
   const currLocation = Location.watchPositionAsync( locationOptions, refreshCameraView );
 
-  //console.log(location);
+  console.log(`currLocation=${currLocation}`);
 
 
   function refreshCameraView( currentLocation: Location.LocationObject )
   {
-    console.log( "currentLocation=" );
-    console.log( currentLocation );
-    console.log( "previousLocation=" );
-    console.log( prevLocation.current );
+    console.log( `currentLocation=${currentLocation}` );
+    console.log( `prevLocation.current=${prevLocation.current}` );
 
 
     // Call findClosestCamera with current and previous location objects
