@@ -1,24 +1,24 @@
 {
   "files": {
-    "app.js": "/static/js/app.835ace4e.chunk.js",
-    "app.js.map": "/static/js/app.835ace4e.chunk.js.map",
-    "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
-    "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.ed2b82dc.chunk.js": "/static/js/2.ed2b82dc.chunk.js",
-    "static/js/2.ed2b82dc.chunk.js.map": "/static/js/2.ed2b82dc.chunk.js.map",
-    "favicon-16.png": "/favicon-16.png",
-    "favicon-32.png": "/favicon-32.png",
-    "favicon.ico": "/favicon.ico",
-    "index.html": "/index.html",
-    "manifest.json": "/manifest.json",
-    "serve.json": "/serve.json",
-    "static/js/2.ed2b82dc.chunk.js.LICENSE.txt": "/static/js/2.ed2b82dc.chunk.js.LICENSE.txt",
-    "static/media/layers-2x.png": "/static/media/layers-2x.8f2c4d11.png",
-    "static/media/marker-icon.png": "/static/media/marker-icon.2b3e1faf.png"
+    "app.js": "/Clairvoyance/static/js/app.48a6c36f.chunk.js",
+    "app.js.map": "/Clairvoyance/static/js/app.48a6c36f.chunk.js.map",
+    "runtime~app.js": "/Clairvoyance/static/js/runtime~app.858aaa18.js",
+    "runtime~app.js.map": "/Clairvoyance/static/js/runtime~app.858aaa18.js.map",
+    "static/js/2.f29848e1.chunk.js": "/Clairvoyance/static/js/2.f29848e1.chunk.js",
+    "static/js/2.f29848e1.chunk.js.map": "/Clairvoyance/static/js/2.f29848e1.chunk.js.map",
+    "favicon-16.png": "/Clairvoyance/favicon-16.png",
+    "favicon-32.png": "/Clairvoyance/favicon-32.png",
+    "favicon.ico": "/Clairvoyance/favicon.ico",
+    "index.html": "/Clairvoyance/index.html",
+    "manifest.json": "/Clairvoyance/manifest.json",
+    "serve.json": "/Clairvoyance/serve.json",
+    "static/js/2.f29848e1.chunk.js.LICENSE.txt": "/Clairvoyance/static/js/2.f29848e1.chunk.js.LICENSE.txt",
+    "static/media/layers-2x.png": "/Clairvoyance/static/media/layers-2x.8f2c4d11.png",
+    "static/media/marker-icon.png": "/Clairvoyance/static/media/marker-icon.2b3e1faf.png"
   },
   "entrypoints": [
-    "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.ed2b82dc.chunk.js",
-    "static/js/app.835ace4e.chunk.js"
+    "static/js/runtime~app.858aaa18.js",
+    "static/js/2.f29848e1.chunk.js",
+    "static/js/app.48a6c36f.chunk.js"
   ]
 }
