@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
-import { cameraData, camera } from '../utils/cameraData';
+import { cameraData, Camera } from '../utils/cameraData';
 import "leaflet/dist/leaflet.css";
 
 type MapProps = {

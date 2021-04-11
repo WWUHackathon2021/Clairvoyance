@@ -23,7 +23,7 @@ export function toDeg( n: number )
 *
 * from: https://stackoverflow.com/a/52079217/6872913
 */
-export function bearing(startLat: number, startLng: number, destLat: number, destLng:number )
+export function getBearing(startLat: number, startLng: number, destLat: number, destLng:number )
 {
     startLat = toRad( startLat );
     startLng = toRad( startLng );
