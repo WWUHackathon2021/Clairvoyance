@@ -36,13 +36,14 @@ export function CameraView( props: CameraViewProps )
         removeFunction.remove();
       }
     })();
-  }, []);
+  }, [prevLocation]);
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
-        console.log('Permission to access location was denied');
+        console.log( 'Permission to access location was denied' );
+        console.log( `status=${ status }` );
         return;
       }
 
@@ -127,7 +128,7 @@ export function CameraView( props: CameraViewProps )
   function refreshCameraView( currentLocation: Location.LocationObject )
   {
     console.log( `currentLocation=${ currentLocation }` );
-    console.log( `prevLocation.current=${ prevLocation }` );
+    console.log( `prevLocation=${ prevLocation }` );
 
 
     // Call findClosestCamera with current and previous location objects
