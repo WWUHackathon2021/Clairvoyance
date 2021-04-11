@@ -16,7 +16,8 @@ type CameraViewProps = {
 export function CameraView( props: CameraViewProps )
 {
   const [closestCamera, setClosestCamera] = useState<Camera | null>( null );
-  const prevLocation = useRef<Location.LocationObject | null>( null );
+  // const prevLocation = useRef<Location.LocationObject | null>( null );
+  const [prevLocation, setPrevLocation] = useState<Location.LocationObject | null>( null );
   //const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
@@ -46,7 +47,8 @@ export function CameraView( props: CameraViewProps )
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      prevLocation.current = location;
+      // prevLocation.current = location;
+      setPrevLocation( location );
     })();
   }, []);
   
@@ -97,6 +99,19 @@ export function CameraView( props: CameraViewProps )
   // }
   // console.log( `closetCameraUrl=${ closestCameraUrl }` );
 
+  let closestCameraUrl: string = "idk";
+  if ( closestCamera )
+  {
+    closestCameraUrl = closestCamera.url
+  } else if (prevLocation)
+  {
+    closestCameraUrl = nearestCamera(
+      [
+        prevLocation!.coords.latitude,
+        prevLocation!.coords.longitude
+      ] )!.url;
+  }
+
   return (
     <div style={{
       backgroundColor: 'black',
@@ -112,7 +127,7 @@ export function CameraView( props: CameraViewProps )
   function refreshCameraView( currentLocation: Location.LocationObject )
   {
     console.log( `currentLocation=${ currentLocation }` );
-    console.log( `prevLocation.current=${ prevLocation.current }` );
+    console.log( `prevLocation.current=${ prevLocation }` );
 
 
     // Call findClosestCamera with current and previous location objects
