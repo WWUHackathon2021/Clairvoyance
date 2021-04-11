@@ -9,13 +9,13 @@ const GPS_REFRESH_INTERVAL_MILLISECONDS: number = 10000;
 const TIME_LOOKAHEAD: number = 60;
 
 type CameraViewProps = {
-  cameraUrl: string,
+  // cameraUrl: string,
   isLandscape: boolean,
 };
 
 export function CameraView( props: CameraViewProps )
 {
-  const [closetCamera, setClosestCamera] = useState<Camera | null>( null );
+  const [closetCameraUrl, setClosestCamera] = useState( "" );
   const prevLocation = useRef<Location.LocationObject | null>( null );
   const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
@@ -31,6 +31,8 @@ export function CameraView( props: CameraViewProps )
         return () => clearInterval(interval);
     }, [refetch];
   */
+  
+  console.log( "what's going on here..." );
 
   const locationOptions: Location.LocationOptions = {
     accuracy: 3,
@@ -52,11 +54,13 @@ export function CameraView( props: CameraViewProps )
 
 
     // Call findClosestCamera with current and previous location objects
-    const closestCamera: Camera = findClosestCamera( prevLocation.current, currentLocation );
+    const closest: Camera = findClosestCamera( prevLocation.current, currentLocation );
 
     prevLocation.current = currentLocation;
 
-    // set camera url
+    setClosestCamera( closest!.url );
+
+    // props.cameraUrl = closetCamera!.url;
 
   }
 
@@ -107,6 +111,8 @@ export function CameraView( props: CameraViewProps )
       lookaheadDistanceMeters
     );
 
+    console.log( `speed=${ speed }, bearing=${ bearing }, lookaheadLocation=${ lookaheadLocation }` );
+
     // TODO: Find K=1 nearest camera
     
     return {
@@ -116,10 +122,12 @@ export function CameraView( props: CameraViewProps )
     }
   }
 
+  console.log( closetCameraUrl );
+  
   return (
     <div style={{
       backgroundColor: 'black',
-      backgroundImage: `url("${ props.cameraUrl }")`,
+      backgroundImage: `url("${ closetCameraUrl }")`,
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center',

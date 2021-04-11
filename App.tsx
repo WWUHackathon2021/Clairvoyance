@@ -28,7 +28,7 @@ const App = () => {
       }}>
         <div style={viewStyle}>
           <MapView
-            setCameraFunction={ setCurrentCamera }
+            // setCameraFunction={ setCurrentCamera }
             isLandscape={isLandscape}
           />
         </div>
