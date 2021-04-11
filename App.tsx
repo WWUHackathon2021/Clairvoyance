@@ -1,29 +1,44 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
-import { MapViewMobile } from './views/MapViewMobile';
-import { MapViewWeb } from './views/MapViewWeb';
-import CameraView from './views/CameraView';
+import useSize from '@react-hook/size';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { MapView } from './views/MapView';
+import { CameraView } from './views/CameraView';
 
 const App = () => {
   const [currentCamera, setCurrentCamera] = useState('');
-
-  var MapView;
-  if(Platform.OS === 'ios' || Platform.OS === 'android'){
-    MapView = <MapViewMobile setCameraFunction = { setCurrentCamera } />
-  }
-  else if (Platform.OS === 'web'){
-    MapView = <MapViewWeb setCameraFunction = { setCurrentCamera } />
-  }
-  else {
-    MapView = <div>Your client is not supported</div>
+  const containerRef = useRef(null);
+  const [containerWidth, containerHeight] = useSize(containerRef, {initialWidth:window.innerWidth, initialHeight:window.innerHeight});
+  const isLandscape:boolean = containerWidth > containerHeight;
+  
+  const viewStyle:React.CSSProperties = {
+    flex: '50%'
   }
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {MapView}
-      <CameraView cameraUrl = { currentCamera } />
+      <div ref={containerRef}
+      style={{
+        width:'100%',
+        height:'100%',
+        backgroundColor: 'red',
+        display: 'flex',
+        flexDirection: isLandscape ? 'row' : 'column'
+      }}>
+        <div style={viewStyle}>
+          <MapView
+            setCameraFunction={ setCurrentCamera }
+            isLandscape={isLandscape}
+          />
+        </div>
+        <div style={viewStyle}>
+          <CameraView
+            cameraUrl={ currentCamera }
+            isLandscape={isLandscape}
+           />
+        </div>
+      </div>
     </View>
   );
 }
