@@ -4,6 +4,7 @@ import * as Location from "expo-location";
 import { cameraData, Camera } from "../utils/cameraData";
 import { throttle } from "../utils/throttle";
 import * as MathUtils from "../utils/math";
+import fakeGpsData from "../assets/fakeGpsData.json";
 
 const GPS_REFRESH_INTERVAL_MILLISECONDS: number = 10000;
 const TIME_LOOKAHEAD: number = 60;
@@ -12,6 +13,9 @@ type CameraViewProps = {
   //cameraUrl: string,
   isLandscape: boolean,
 };
+
+let originalFakeGpsData = [...fakeGpsData];
+let currentFakeGpsData = [...fakeGpsData];
 
 export function CameraView( props: CameraViewProps )
 {
@@ -23,33 +27,39 @@ export function CameraView( props: CameraViewProps )
   // We set a query param on the img URL every interval to force the update.
 
   // TODO (weberte): why is the callback not running? I have no idea what I'm doing...
+  // useEffect(() => {
+  //   (async () => {
+  //     const locationOptions: Location.LocationOptions = {
+  //       accuracy: 3,
+  //       timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
+  //       distanceInterval: 30
+  //     };
+  //     let removeFunction = await Location.watchPositionAsync( locationOptions, refreshCameraView );
+
+  //     return function cleanup() {
+  //       removeFunction.remove();
+  //     }
+  //   })();
+  // }, [prevLocation]);
+
   useEffect(() => {
     (async () => {
-      const locationOptions: Location.LocationOptions = {
-        accuracy: 3,
-        timeInterval: GPS_REFRESH_INTERVAL_MILLISECONDS,
-        distanceInterval: 30
-      };
-      let removeFunction = await Location.watchPositionAsync( locationOptions, refreshCameraView );
+      // let { status } = await Location.requestPermissionsAsync();
+      // if (status !== 'granted') {
+      //   console.log( 'Permission to access location was denied' );
+      //   console.log( `status=${ status }` );
+      //   return;
+      // }
+
+      // let location = await Location.getCurrentPositionAsync({});
+      // // prevLocation.current = location;
+      // setPrevLocation( location );
+
+      let intervalHandle = setInterval(() => { refreshCameraView(null); }, 10000);
 
       return function cleanup() {
-        removeFunction.remove();
-      }
-    })();
-  }, [prevLocation]);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        console.log( 'Permission to access location was denied' );
-        console.log( `status=${ status }` );
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      // prevLocation.current = location;
-      setPrevLocation( location );
+        clearInterval(intervalHandle);
+      };
     })();
   }, []);
   
@@ -125,15 +135,23 @@ export function CameraView( props: CameraViewProps )
   );
 
 
-  function refreshCameraView( currentLocation: Location.LocationObject )
+  function refreshCameraView( currentLocation: Location.LocationObject|null )
   {
+    // TEMP FOR DEMO
+    let fakeLocation = currentFakeGpsData.pop();
+    if (fakeLocation === undefined) {
+      currentFakeGpsData = [...originalFakeGpsData];
+      fakeLocation = currentFakeGpsData.pop();
+    }
+
+    currentLocation = { coords: { latitude: fakeLocation!.latitude, longitude: fakeLocation!.longitude } };
+
     console.log( `currentLocation=${ currentLocation }` );
     console.log( `prevLocation=${ prevLocation }` );
 
 
     // Call findClosestCamera with current and previous location objects
     const closest: Camera | null  = findClosestCamera( prevLocation, currentLocation );
-    console.log( `closestCamera=${ closest }` );
 
     // prevLocation.current = currentLocation;
     setPrevLocation( currentLocation );
@@ -150,7 +168,6 @@ export function CameraView( props: CameraViewProps )
 
     if ( prevLocation === null )
     {
-      console.log( "Not sure what to do here... I guess set as currLocation?" );
       prevLocation = currLocation;
     }
 
