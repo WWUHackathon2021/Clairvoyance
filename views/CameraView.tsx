@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
 import * as Location from "expo-location";
 import { cameraData, camera } from "../utils/cameraData";
@@ -12,7 +12,7 @@ type CameraViewProps = {
 export function CameraView( props: CameraViewProps )
 {
   const [closetCamera, setClosestCamera] = useState<camera|null>( null );
-  const [prevLocation, setPrevLocation] = useState<Location.LocationObject|null>( null );
+  const prevLocation = useRef<Location.LocationObject|null>( null );
   const [errorMsg, setErrorMsg] = useState( '' );
   // This is a hack to force react native to clear the img cache.
   // We set a query param on the img URL every interval to force the update.
@@ -34,33 +34,28 @@ export function CameraView( props: CameraViewProps )
     distanceInterval: 30
   }
 
-  const location = Location.watchPositionAsync(locationOptions, refreshCameraView);
+  const currLocation = Location.watchPositionAsync(locationOptions, refreshCameraView);
 
-  console.log(location);
+  //console.log(location);
 
 
-  function refreshCameraView()
+  function refreshCameraView(currentLocation:Location.LocationObject)
   {
-    // Get currentLocation
+    console.log("stats");
+    console.log(currentLocation);
 
     // Call findClosestCamera with current and previous location objects
-
-    // return camera
+    findClosestCamera(prevLocation.current, currentLocation);
     
-    // let { status } = await requestPermissionsAsync();
-    //   if (status !== 'granted') {
-    //     setErrorMsg('Permission to access location was denied');
-    //     return;
-    //   }
+    prevLocation.current = currentLocation;
 
-    //   let currLocation = await getCurrentPositionAsync( {} );
-
+    // set camera url
 
   }
 
 
 
-  function findClosestCamera( prevLocation: Location.LocationObject, currLocation: Location.LocationObject )
+  function findClosestCamera( prevLocation: Location.LocationObject|null, currLocation: Location.LocationObject|null )
   {
     // TODO: Calculate speed
 
