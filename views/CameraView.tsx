@@ -75,9 +75,9 @@ export function CameraView( props: CameraViewProps )
     timestamp: 123765
   }
 
-  const testCamera: Camera = findClosestCamera( prevTest, currTest );
+  const testCamera: Camera | null = findClosestCamera( prevTest, currTest );
 
-  let closetCameraUrl: string = testCamera.url;
+  let closetCameraUrl: string = testCamera!.url;
   if ( closetCamera )
   {
     closetCameraUrl = closetCamera.url;
@@ -169,7 +169,7 @@ export function CameraView( props: CameraViewProps )
 
   function nearestCamera( lookaheadLocation: number[] )
   {
-    let closestCamera: Camera;
+    let closestCamera: Camera | null = null; // This is dumb, but I'm tired.
     let minDistance: number = Number.MAX_VALUE;
     for ( let camera of cameraData )
     {
@@ -186,6 +186,6 @@ export function CameraView( props: CameraViewProps )
       }
     }
 
-    return closetCamera;
+    return closestCamera;
   }
 }
